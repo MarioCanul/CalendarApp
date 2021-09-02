@@ -7,8 +7,8 @@ import Swal from "sweetalert2";
 import { uiCloseModal } from "../../actions/ui";
 import {
   clearActiveEvent,
-  eventAddNew,
-  updatedEvent,
+  eventStartAddNew,
+  StartEventUpdate,
 } from "../../actions/events";
 const customStyles = {
   content: {
@@ -94,10 +94,10 @@ export const CalendarModal = () => {
       return setTitlevalid(false);
     }
     if (activeEvent) {
-      dispatch(updatedEvent(FormValues));
+      dispatch(StartEventUpdate(FormValues));
     } else {
       dispatch(
-        eventAddNew({
+        eventStartAddNew({
           ...FormValues,
           id: new Date().getTime(),
           user: {

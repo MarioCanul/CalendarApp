@@ -10,9 +10,10 @@ import { CalendarEvent } from "./CalendarEvent";
 import { CalendarModal } from "./CalendarModal";
 import { useDispatch, useSelector } from "react-redux";
 import { uiOpenModal } from "../../actions/ui";
-import { clearActiveEvent, eventSetActive } from "../../actions/events";
+import { clearActiveEvent, eventSetActive, eventStartLoading } from "../../actions/events";
 import { AddNewFab } from "../ui/AddNewFab";
 import { DeleteEventfab } from "../ui/DeleteEventfab";
+import { useEffect } from "react";
 const localizer = momentLocalizer(moment);
 
 export const CalendarScreen = () => {
@@ -20,7 +21,11 @@ export const CalendarScreen = () => {
     localStorage.getItem("lastView") || "month"
   );
   const {events, activeEvent} = useSelector(state => state.calendar)
+  const {uid} = useSelector(state => state.auth)
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(eventStartLoading())
+  }, [dispatch])
   const onDoubleClick = (e) => {
     dispatch(uiOpenModal());
   };
@@ -36,7 +41,7 @@ const handleSelectSlot=()=>{
   };
   const eventStylesGetter = (event, start, end, isSelected) => {
     const style = {
-      backgroundColor: "#367CF7",
+      backgroundColor: (uid===event.user._id)? "#367CF7": '#465660',
       borderRadius: "0px",
       opacity: 0.8,
       display: "block",

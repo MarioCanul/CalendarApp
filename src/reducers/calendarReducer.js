@@ -1,20 +1,18 @@
-import moment from "moment";
 import { types } from "../types/types";
 
+// {
+//   id:new Date().getTime(),
+// title: "Cumpleaños del jefe",
+// start: moment().toDate(),
+// end: moment().add(2, "hours").toDate(),
+// bgcolor: "#fafafa",
+// user: {
+//   _id: 123,
+//   name: "Mario",
+// },
+// },
 const initialState = {
-  events: [
-    {
-        id:new Date().getTime(),
-      title: "Cumpleaños del jefe",
-      start: moment().toDate(),
-      end: moment().add(2, "hours").toDate(),
-      bgcolor: "#fafafa",
-      user: {
-        _id: 123,
-        name: "Mario",
-      },
-    },
-  ],
+  events: [],
   activeEvent: null,
 };
 export const calendarReducer = (state = initialState, action) => {
@@ -49,6 +47,10 @@ case types.UpdatedEvent:
         ),
         activeEvent:null
     }
+    case types.eventsStartLoading:
+      return {...state,
+        events:[...action.payload]
+      }
     default:
       return state;
   }
